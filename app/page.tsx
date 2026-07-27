@@ -131,7 +131,7 @@ export default function Home() {
 
 
         <p className="text-center text-gray-600 mt-2">
-          تسجيل صوم العذراء
+         خدمة نظام - نهضة العذراء
         </p>
 
 
