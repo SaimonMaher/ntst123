@@ -147,7 +147,7 @@ export default function Home() {
 
 
   <Image
-    src="/eladra.jpg"
+    src="/eladra.png"
     width={250}
     height={250}
     alt="السيدة العذراء"
