@@ -120,7 +120,7 @@ export default function Home() {
 
   return (
 
-    <main className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
+    <main className="min-h-screen bg-[url('/church-bg.png')] flex items-center justify-center p-6">
 
 
       <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
