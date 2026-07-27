@@ -7,41 +7,53 @@ import { db } from "../firebase";
 
 export default function AdminPage() {
 
-
+  const [days, setDays] = useState<any[]>([]);
   const [bookings, setBookings] = useState<any[]>([]);
 
 
 
   useEffect(() => {
 
+    const loadData = async () => {
 
-    const loadBookings = async () => {
+
+      const daysSnapshot = await getDocs(
+        collection(db, "days")
+      );
 
 
-      const snapshot = await getDocs(
+      const daysData = daysSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+
+
+
+      const bookingsSnapshot = await getDocs(
         collection(db, "bookings")
       );
 
 
-      const data = snapshot.docs.map(doc => ({
-
+      const bookingsData = bookingsSnapshot.docs.map(doc => ({
         id: doc.id,
-
         ...doc.data()
-
       }));
 
 
-      setBookings(data);
+
+      setDays(daysData);
+      setBookings(bookingsData);
 
 
     };
 
 
-    loadBookings();
+    loadData();
 
 
   }, []);
+
+
 
 
 
@@ -50,77 +62,155 @@ export default function AdminPage() {
     <main className="min-h-screen bg-gray-100 p-6">
 
 
-      <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl p-8">
+      <div className="max-w-6xl mx-auto">
 
 
         <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">
-
-          إدارة الحجوزات
-
+          إدارة حجوزات نهضة العذراء
         </h1>
 
 
 
+
         {
-          bookings.length === 0 ?
-
-          (
-
-            <p className="text-center">
-              لا يوجد حجوزات حتى الآن
-            </p>
-
-          )
-
-          :
-
-          (
-
-            <div className="space-y-4">
+          days.map((day)=>{
 
 
-              {
-                bookings.map((booking) => (
+            const dayBookings = bookings.filter(
+  (booking) =>
+    booking.day === day.date
+);
 
 
-                  <div
-
-                    key={booking.id}
-
-                    className="border rounded-lg p-4"
-
-                  >
-
-                    <p>
-                      <strong>الاسم:</strong> {booking.name}
-                    </p>
+            const remaining =
+              day.capacity - dayBookings.length;
 
 
-                    <p>
-                      <strong>الهاتف:</strong> {booking.phone}
-                    </p>
+
+            return (
+
+              <div
+                key={day.id}
+                className="bg-white rounded-xl shadow p-6 mb-6"
+              >
 
 
-                    <p>
-                      <strong>القطاع:</strong> {booking.sector}
-                    </p>
+                <div className="flex justify-between items-center mb-4">
 
 
-                    <p>
-                      <strong>اليوم:</strong> {booking.day}
-                    </p>
+                  <h2 className="text-xl font-bold">
+                    {day.date}
+                  </h2>
 
+
+                  <div>
+
+                    <span className="mr-4">
+                      الإجمالي: {day.capacity}
+                    </span>
+
+
+                    <span className="text-green-700">
+                      متبقي: {remaining}
+                    </span>
 
                   </div>
 
 
-                ))
-              }
+                </div>
 
 
-            </div>
 
-          )
+                {
+                  dayBookings.length === 0 ?
+
+                  (
+                    <p>
+                      لا يوجد حجوزات
+                    </p>
+                  )
+
+                  :
+
+                  (
+
+                    <table className="w-full border">
+
+
+                      <thead>
+
+                        <tr className="bg-gray-200">
+
+                          <th className="border p-2">
+                            الاسم
+                          </th>
+
+
+                          <th className="border p-2">
+                            الهاتف
+                          </th>
+
+
+                          <th className="border p-2">
+                            القطاع
+                          </th>
+
+
+                        </tr>
+
+                      </thead>
+
+
+
+                      <tbody>
+
+
+                        {
+                          dayBookings.map((booking)=>(
+
+                            <tr key={booking.id}>
+
+
+                              <td className="border p-2">
+                                {booking.name}
+                              </td>
+
+
+                              <td className="border p-2">
+                                {booking.phone}
+                              </td>
+
+
+                              <td className="border p-2">
+                                {booking.sector}
+                              </td>
+
+
+                            </tr>
+
+
+                          ))
+                        }
+
+
+                      </tbody>
+
+
+                    </table>
+
+                  )
+
+                }
+
+
+              </div>
+
+
+            );
+
+
+          })
+
         }
 
 
