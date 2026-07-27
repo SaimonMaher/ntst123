@@ -1,0 +1,11 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/admin/page": "/admin",
+  "/confirmation/page": "/confirmation",
+  "/favicon.ico/route": "/favicon.ico",
+  "/node_modules/color-convert/route": "/node_modules/color-convert",
+  "/page": "/",
+  "/setup/page": "/setup",
+  "/success/page": "/success"
+}
