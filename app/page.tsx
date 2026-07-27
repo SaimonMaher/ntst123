@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -134,7 +136,26 @@ export default function Home() {
          خدمة نظام - نهضة العذراء
         </p>
 
+<div className="flex flex-col items-center">
 
+  <Image
+    src="/logo.png"
+    width={120}
+    height={120}
+    alt="شعار الفريق"
+    className="mb-4"
+  />
+
+
+  <Image
+    src="/eladra.jpg"
+    width={250}
+    height={250}
+    alt="السيدة العذراء"
+    className="rounded-xl mb-6"
+  />
+
+</div>
 
         <input
 
