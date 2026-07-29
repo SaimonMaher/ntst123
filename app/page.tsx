@@ -115,11 +115,24 @@ const availableDays = days.filter((day) => {
 
   return (
 
-    <main className="min-h-screen bg-[url('/church-bg.png')] flex items-center justify-center p-6">
+    <main
+  className="
+    min-h-screen
+    bg-[url('/church-background.avif')]
+    bg-cover
+    bg-center
+    bg-fixed
+    relative
+    flex
+    items-center
+    justify-center
+    p-6
+  "
+>
+  <div className="absolute inset-0 bg-black/20"></div>
 
 
-      <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
-
+      <div className="relative z-10 w-full max-w-md rounded-3xl bg-white/80 backdrop-blur-xl border border-white/40 shadow-[0_20px_60px_rgba(0,0,0,0.35)] p-8">
 
         <h1 className="text-3xl font-bold text-center text-blue-700">
           خدمة نظام - نهضة العذراء
