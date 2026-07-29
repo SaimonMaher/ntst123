@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import {
   doc,
-  getDoc,
   runTransaction,
   collection,
   serverTimestamp
 } from "firebase/firestore";
 import { useRouter } from "next/navigation";
+
 
 export default function ConfirmationPage() {
 
@@ -17,23 +17,11 @@ export default function ConfirmationPage() {
 
   const [booking, setBooking] = useState<any>(null);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
 
 
   useEffect(() => {
-
-    const confirmed = sessionStorage.getItem("confirmed");
-
-    if (confirmed) {
-
-      sessionStorage.removeItem("confirmed");
-
-      router.push("/");
-
-      return;
-
-    }
-
 
     const data = localStorage.getItem("booking");
 
@@ -43,8 +31,7 @@ export default function ConfirmationPage() {
 
     }
 
-
-  }, [router]);
+  }, []);
 
 
 
@@ -53,6 +40,11 @@ export default function ConfirmationPage() {
   const confirmBooking = async () => {
 
     if (!booking) return;
+
+
+    setLoading(true);
+
+    setMessage("جاري تأكيد الحجز...");
 
 
     try {
@@ -131,23 +123,33 @@ export default function ConfirmationPage() {
 
 
 
-setMessage("تم تأكيد اليوم بنجاح ✅");
 
-sessionStorage.setItem(
-  "confirmed",
-  "true"
-);
+      setMessage("تم تأكيد الحجز بنجاح ✅");
 
-setTimeout(() => {
-  router.push("/success");
-}, 1000);
+
+      localStorage.removeItem("booking");
 
 
 
-    } catch (error:any) {
+      setTimeout(() => {
+
+        router.push("/success");
+
+      }, 1000);
+
+
+
+    } catch (error: any) {
 
 
       setMessage(error.message);
+
+
+
+    } finally {
+
+
+      setLoading(false);
 
 
     }
@@ -159,8 +161,9 @@ setTimeout(() => {
 
 
 
-  if (!booking) {
 
+
+  if (!booking) {
 
     return (
 
@@ -172,8 +175,8 @@ setTimeout(() => {
 
     );
 
-
   }
+
 
 
 
@@ -181,10 +184,12 @@ setTimeout(() => {
 
   return (
 
+
     <main className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
 
 
       <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
+
 
 
         <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">
@@ -192,6 +197,7 @@ setTimeout(() => {
           برجاء تأكيد اليوم
 
         </h1>
+
 
 
 
@@ -229,11 +235,13 @@ setTimeout(() => {
 
           onClick={confirmBooking}
 
-          className="w-full bg-blue-700 text-white rounded-lg p-3 mt-8"
+          disabled={loading}
+
+          className="w-full bg-blue-700 text-white rounded-lg p-3 mt-8 disabled:bg-gray-400"
 
         >
 
-          تأكيد اليوم
+          {loading ? "جاري التأكيد..." : "تأكيد اليوم"}
 
         </button>
 
@@ -249,6 +257,7 @@ setTimeout(() => {
 
 
 
+
       </div>
 
 
@@ -256,5 +265,6 @@ setTimeout(() => {
 
 
   );
+
 
 }
