@@ -41,7 +41,21 @@ export default function AdminPage() {
 
 
 
-      setDays(daysData);
+      const sortedDays = daysData.sort((a: any, b: any) => {
+
+  const dayA = Number(
+    a.date.match(/\d+/)?.[0] || 0
+  );
+
+  const dayB = Number(
+    b.date.match(/\d+/)?.[0] || 0
+  );
+
+  return dayA - dayB;
+
+});
+
+setDays(sortedDays);
       setBookings(bookingsData);
 
 
