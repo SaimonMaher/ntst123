@@ -195,7 +195,7 @@ export default function ConfirmationPage() {
 
         >
 
-          تأكيد الحجز
+          تأكيد اليوم
 
         </button>
 
