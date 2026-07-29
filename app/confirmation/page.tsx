@@ -7,11 +7,9 @@ import {
   getDoc,
   runTransaction,
   collection,
-  addDoc,
   serverTimestamp
 } from "firebase/firestore";
 import { useRouter } from "next/navigation";
-
 
 export default function ConfirmationPage() {
 
@@ -24,13 +22,31 @@ export default function ConfirmationPage() {
 
   useEffect(() => {
 
+    const confirmed = sessionStorage.getItem("confirmed");
+
+    if (confirmed) {
+
+      sessionStorage.removeItem("confirmed");
+
+      router.push("/");
+
+      return;
+
+    }
+
+
     const data = localStorage.getItem("booking");
 
     if (data) {
+
       setBooking(JSON.parse(data));
+
     }
 
-  }, []);
+
+  }, [router]);
+
+
 
 
 
@@ -41,6 +57,7 @@ export default function ConfirmationPage() {
 
     try {
 
+
       const dayRef = doc(
         db,
         "days",
@@ -48,10 +65,12 @@ export default function ConfirmationPage() {
       );
 
 
+
       await runTransaction(db, async (transaction) => {
 
 
         const daySnap = await transaction.get(dayRef);
+
 
 
         if (!daySnap.exists()) {
@@ -61,7 +80,9 @@ export default function ConfirmationPage() {
         }
 
 
+
         const dayData = daySnap.data();
+
 
 
         if (dayData.booked >= dayData.capacity) {
@@ -85,7 +106,9 @@ export default function ConfirmationPage() {
         );
 
 
+
         transaction.set(bookingRef, {
+
 
           name: booking.name,
 
@@ -99,36 +122,42 @@ export default function ConfirmationPage() {
 
           createdAt: serverTimestamp()
 
+
         });
+
 
 
       });
 
 
 
-      setMessage("تم تأكيد الحجز بنجاح ✅");
+      setMessage("تم تأكيد اليوم بنجاح ✅");
 
 
-      setTimeout(() => {
-
-        router.push("/success");
-
-      }, 1500);
+      sessionStorage.setItem(
+        "confirmed",
+        "true"
+      );
 
 
 
     } catch (error:any) {
 
+
       setMessage(error.message);
 
+
     }
+
 
   };
 
 
 
 
+
   if (!booking) {
+
 
     return (
 
@@ -140,7 +169,10 @@ export default function ConfirmationPage() {
 
     );
 
+
   }
+
+
 
 
 
@@ -157,6 +189,7 @@ export default function ConfirmationPage() {
           برجاء تأكيد اليوم
 
         </h1>
+
 
 
 
@@ -187,6 +220,8 @@ export default function ConfirmationPage() {
 
 
 
+
+
         <button
 
           onClick={confirmBooking}
@@ -200,6 +235,9 @@ export default function ConfirmationPage() {
         </button>
 
 
+
+
+
         <p className="text-center mt-4">
 
           {message}
@@ -207,10 +245,12 @@ export default function ConfirmationPage() {
         </p>
 
 
+
       </div>
 
 
     </main>
+
 
   );
 
