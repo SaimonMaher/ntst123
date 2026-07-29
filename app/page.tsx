@@ -74,14 +74,9 @@ export default function Home() {
 
 
 
-  const availableDays = days.filter((day) => {
-
-    return (
-      day.sectors?.includes(sector) &&
-      day.booked < day.capacity
-    );
-
-  });
+const availableDays = days.filter((day) => {
+  return day.sectors?.includes(sector);
+});
 
 
 
@@ -248,19 +243,22 @@ export default function Home() {
 
 
                 <option
-
-                  key={day.id}
-
-                  value={JSON.stringify({
-                    id: day.id,
-                    date: day.date
-                  })}
-
-                >
-
-                  {day.date} - متاح {day.capacity - day.booked} مكان
-
-                </option>
+  key={day.id}
+  disabled={day.booked >= day.capacity}
+  value={
+    day.booked < day.capacity
+      ? JSON.stringify({
+          id: day.id,
+          date: day.date,
+        })
+      : ""
+  }
+>
+  {day.date}{" "}
+  {day.booked >= day.capacity
+    ? "❌ مكتمل"
+    : `- متاح ${day.capacity - day.booked} مكان`}
+</option>
 
 
               ))
