@@ -69,7 +69,7 @@ export default function SuccessPage() {
 
         <p className="mt-4 text-lg">
 
-          شكرًا لتسجيلك في نهضة العذراء
+          شكرًا لتسجيلك في خدمة نهضة العذراء
 
         </p>
 

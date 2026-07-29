@@ -122,12 +122,12 @@ const availableDays = days.filter((day) => {
 
 
         <h1 className="text-3xl font-bold text-center text-blue-700">
-          فريق العهد الجديد الكشفي
+          خدمة نظام - نهضة العذراء
         </h1>
 
 
         <p className="text-center text-gray-600 mt-2">
-         خدمة نظام - نهضة العذراء
+         فريق العهد الجديد الكشفي
         </p>
 
 <div className="flex flex-col items-center">
