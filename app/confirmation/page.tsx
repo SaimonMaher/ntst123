@@ -131,13 +131,16 @@ export default function ConfirmationPage() {
 
 
 
-      setMessage("تم تأكيد اليوم بنجاح ✅");
+setMessage("تم تأكيد اليوم بنجاح ✅");
 
+sessionStorage.setItem(
+  "confirmed",
+  "true"
+);
 
-      sessionStorage.setItem(
-        "confirmed",
-        "true"
-      );
+setTimeout(() => {
+  router.push("/success");
+}, 1000);
 
 
 
