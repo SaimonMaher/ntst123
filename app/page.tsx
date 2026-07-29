@@ -302,5 +302,11 @@ const availableDays = days.filter((day) => {
     </main>
 
   );
+<button
+  onClick={() => router.push("/my-bookings")}
+  className="w-full border border-blue-700 text-blue-700 rounded-lg p-3 mt-3"
+>
+  استعلام عن حجوزاتي
+</button>
 
 }
