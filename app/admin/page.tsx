@@ -83,7 +83,31 @@ setDays(sortedDays);
           إدارة حجوزات نهضة العذراء
         </h1>
 
+<div className="bg-white rounded-xl shadow p-4 mb-6">
+  <h2 className="text-xl font-bold mb-3">
+    الأماكن المتاحة
+  </h2>
 
+  {days.map((day) => {
+    const remaining =
+      day.capacity -
+      bookings.filter(
+        (booking) => booking.day === day.date
+      ).length;
+
+    return (
+      <div
+        key={day.id}
+        className="flex justify-between border-b py-2 last:border-b-0"
+      >
+        <span>{day.date}</span>
+        <span className="font-bold text-green-700">
+          {remaining}
+        </span>
+      </div>
+    );
+  })}
+</div>
 
 
         {
@@ -235,4 +259,4 @@ setDays(sortedDays);
 
   );
 
-}
+} 
