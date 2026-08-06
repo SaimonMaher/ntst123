@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase";
-import { deleteDoc, doc } from "firebase/firestore";
 
 export default function MyBookingsPage() {
 
@@ -11,21 +10,7 @@ export default function MyBookingsPage() {
   const [bookings, setBookings] = useState<any[]>([]);
   const [searched, setSearched] = useState(false);
   const [loading, setLoading] = useState(false);
-const cancelBooking = async (id: string) => {
-  const ok = confirm("هل تريد إلغاء هذا الحجز؟");
 
-  if (!ok) return;
-
-  try {
-    await deleteDoc(doc(db, "bookings", id));
-
-    setBookings((prev) => prev.filter((b) => b.id !== id));
-
-    alert("تم إلغاء الحجز بنجاح ✅");
-  } catch (error) {
-    alert("حدث خطأ أثناء الإلغاء");
-  }
-};
 
   const searchBookings = async () => {
 
@@ -104,12 +89,7 @@ const cancelBooking = async (id: string) => {
 
     <p><strong>اليوم:</strong> {booking.day}</p>
 
-    <button
-      onClick={() => cancelBooking(booking.id)}
-      className="mt-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg"
-    >
-      إلغاء الحجز
-    </button>
+    
 
   </div>
 
