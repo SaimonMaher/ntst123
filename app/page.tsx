@@ -74,10 +74,19 @@ export default function Home() {
 
 
 
-const availableDays = days.filter((day) => {
-  return day.sectors?.includes(sector);
-});
+const hiddenDays = [
+  "الجمعة 7 أغسطس",
+  "السبت 8 أغسطس",
+  "الأحد 9 أغسطس",
+  "الاثنين 10 أغسطس",
+];
 
+const availableDays = days.filter((day) => {
+  return (
+    day.sectors?.includes(sector) &&
+    !hiddenDays.includes(day.date)
+  );
+});
 
 
 
